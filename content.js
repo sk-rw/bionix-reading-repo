@@ -1,34 +1,16 @@
-function boldify(element) {
-  if (!element.hasChildNodes() || element.tagName === 'SCRIPT' || element.tagName === 'STYLE') {
-    return;
-  }
+// Select only <p> elements on the page
+const paragraphs = document.querySelectorAll('p');
 
-  const children = element.childNodes;
-
-  for (let i = 0; i < children.length; i++) {
-    const child = children[i];
-
-    if (child.nodeType === 3) {
-      const words = child.textContent.split(' ');
-      const regex = new RegExp('^[a-zA-Z\']+');
-      const boldedWords = words.map(word => {
-        const match = regex.exec(word);
-        if (match) {
-          const bolded = `<span style="font-weight: bold; font-size: 120%;">${match[0]}</span>${word.substring(match[0].length)}`;
-          return bolded;
-        } else {
-          return word;
-        }
-      });
-
-      const newContent = boldedWords.join(' ');
-      const newElement = document.createElement('span');
-      newElement.innerHTML = newContent;
-      element.replaceChild(newElement, child);
+// Loop through each <p> element and embolden the first three letters of each word
+for (let i = 0; i < paragraphs.length; i++) {
+  const words = paragraphs[i].innerText.split(' ');
+  const boldedWords = words.map(word => {
+    if (word.length >= 3) {
+      const bolded = `<span style="font-weight: bold; font-size: 120%;">${word.substr(0, 3)}</span>${word.substring(3)}`;
+      return bolded;
     } else {
-      boldify(child);
+      return word;
     }
-  }
+  });
+  paragraphs[i].innerHTML = boldedWords.join(' ');
 }
-
-boldify(document.body);
