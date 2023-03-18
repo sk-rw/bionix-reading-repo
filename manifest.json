@@ -1,27 +1,46 @@
 {
-    "manifest_version": 2,
-    "name": "Bionix",
-    "version": "1.0",
-    "description": "Embolden and increase font size of the first three letters of each word on a web page.",
-    "icons": {
+  "manifest_version": 3,
+  "name": "Bionix",
+  "version": "1.0",
+  "description": "A Chrome extension for formatting text on web pages.",
+  "icons": {
+    "16": "images/icon16.png",
+    "32": "images/icon32.png",
+    "48": "images/icon48.png",
+    "128": "images/icon128.png"
+  },
+  "permissions": [
+    "activeTab",
+    "tabs"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_icon": {
       "16": "images/icon16.png",
       "32": "images/icon32.png",
       "48": "images/icon48.png",
       "128": "images/icon128.png"
     },
-    "browser_action": {
-      "default_icon": "images/icon.png",
-      "default_popup": "popup.html"
-    },
-    "permissions": [
-      "activeTab"
-    ],
-    "content_scripts": [
-      {
-        "matches": ["http://*/*", "https://*/*"],
-        "js": ["content.js"],
-        "run_at": "document_end"
-      }
-    ]
-  }
-  
+    "default_title": "Bionix",
+    "default_popup": "popup.html"
+  },
+  "commands": {
+    "toggle-bionix": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+E",
+        "mac": "MacCtrl+Shift+E"
+      },
+      "description": "Toggle Bionix on/off"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ]
+}
+
