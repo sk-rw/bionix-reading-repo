@@ -2,7 +2,7 @@ let isFormattingApplied = false;
 
 function toggleFormatting() {
   const paragraphs = document.querySelectorAll('p');
-  
+
   for (let i = 0; i < paragraphs.length; i++) {
     const words = paragraphs[i].innerText.split(' ');
     const formattedWords = words.map(word => {
@@ -15,7 +15,7 @@ function toggleFormatting() {
     });
     paragraphs[i].innerHTML = formattedWords.join(' ');
   }
-  
+
   isFormattingApplied = !isFormattingApplied;
 }
 
@@ -26,4 +26,9 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     toggleFormatting();
     sendResponse({ isFormattingApplied });
   }
+});
+
+chrome.tabs.onActivated.addListener(activeInfo => {
+  console.log(activeInfo.tabId);
+  console.log(activeInfo.windowId);
 });
