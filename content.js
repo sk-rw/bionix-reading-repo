@@ -17,20 +17,22 @@ function toggleFormatting() {
     });
     paragraphs[i].innerHTML = formattedWords.join(' ');
   }
-
-  isFormattingApplied = !isFormattingApplied;
+  
 }
-
-toggleFormatting();  // call the function to apply formatting by default
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.action === 'toggleFormatting') {
-    toggleFormatting();
+    isFormattingApplied = !isFormattingApplied;
+    if (isFormattingApplied) {
+      toggleFormatting();
+    } else {
+      const paragraphs = document.querySelectorAll('p');
+      for (let i = 0; i < paragraphs.length; i++) {
+        paragraphs[i].innerHTML = paragraphs[i].innerText;
+      }
+    }
     sendResponse({ isFormattingApplied });
   }
 });
 
-chrome.tabs.onActivated.addListener(activeInfo => {
-  console.log(activeInfo.tabId);
-  console.log(activeInfo.windowId);
-});
+toggleFormatting(); // apply formatting by default
