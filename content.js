@@ -35,4 +35,4 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   }
 });
 
-toggleFormatting(); // apply formatting by default
+
